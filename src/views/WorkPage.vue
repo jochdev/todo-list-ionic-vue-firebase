@@ -10,11 +10,11 @@
     <ion-content class="overflow-auto">
       <div class="flex flex-col justify-center items-center mt-2">
         <div class="text-center">
-         <ion-icon :icon="home" size="large" color="primary"></ion-icon>
+         <ion-icon :icon="briefcase" size="large" color="primary"></ion-icon>
         </div>
 
         <div class="text-center">
-          <ion-card-title class="text-2xl">Home</ion-card-title>
+          <ion-card-title class="text-2xl">Work</ion-card-title>
           <ion-card-subtitle>Taks</ion-card-subtitle>
         </div>
       </div>
@@ -179,7 +179,7 @@ import {
   IonModal,
 } from "@ionic/vue";
 // Iconos::Begin
-import { ellipsisVertical, home, trash, add } from "ionicons/icons";
+import { ellipsisVertical, briefcase, trash, add } from "ionicons/icons";
 // Iconos::END
 
 export default defineComponent({
@@ -209,7 +209,7 @@ export default defineComponent({
     const isOpenNewTask = ref(false);
     return {
       ellipsisVertical,
-      home,
+      briefcase,
       trash,
       add,
       isOpenNewTask,
