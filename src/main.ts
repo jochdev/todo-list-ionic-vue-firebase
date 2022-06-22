@@ -27,8 +27,12 @@ import './theme/variables.css';
 /* Tailwindcss */
 import '../public/assets/css/style.css';
 
+/* Vuex */
+import store from './store/index';
+
 const app = createApp(App)
   .use(IonicVue)
+  .use(store)
   .use(router);
   
 router.isReady().then(() => {

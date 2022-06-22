@@ -141,7 +141,7 @@
             </ion-card-header>
 
             <ion-card-content>
-              <ion-card-title class="text-2xl">cart</ion-card-title>
+              <ion-card-title class="text-2xl">Shopping</ion-card-title>
               <ion-card-subtitle>Tasks</ion-card-subtitle>
             </ion-card-content>
           </router-link>

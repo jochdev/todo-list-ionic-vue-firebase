@@ -10,7 +10,7 @@
     <ion-content class="overflow-auto">
       <div class="flex flex-col justify-center items-center mt-2">
         <div class="text-center">
-         <ion-icon :icon="briefcase" size="large" color="primary"></ion-icon>
+         <ion-icon :icon="briefcase" size="large" color="text-yellow-600"></ion-icon>
         </div>
 
         <div class="text-center">

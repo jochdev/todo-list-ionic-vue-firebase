@@ -2,11 +2,11 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title class="">NewTask</ion-title>
+        <ion-title>NewTask</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <Form @submit="addTask()"> 
+      <Form @submit="addTask()">
         <!--Begin::Input -->
         <ion-item>
           <ion-label position="floating">What are you planning?</ion-label>
@@ -25,6 +25,7 @@
 
         <!--Begin::Input Fecha -->
         <ion-datetime
+          name="duedateField"
           v-model="dueDate"
           display-format="MMM DD, YYYY HH:mm"
           display-timezone="utc"
@@ -43,14 +44,14 @@
           <ion-label position="floating"
             >Enter more information here...</ion-label
           >
-          <ion-textarea  v-model="note"></ion-textarea>
+          <ion-textarea v-model="note"></ion-textarea>
         </ion-item>
         <!--Begin::Input Nota-->
 
         <!--Begin::Input Categoria -->
         <ion-item>
-          <ion-label v-bind="field">Category</ion-label>
-          <ion-select placeholder="Select One"  v-model="category">
+          <ion-label>Category</ion-label>
+          <ion-select placeholder="Select One" v-model="category">
             <ion-select-option value="Work">Work</ion-select-option>
           </ion-select>
         </ion-item>
@@ -95,6 +96,11 @@ import {
   IonItem,
   IonDatetime,
   IonTextarea,
+  IonTitle,
+  IonText,
+  IonSelect,
+  IonSelectOption,
+  IonButton,
 } from "@ionic/vue";
 import { defineComponent, ref } from "vue";
 import { closeOutline } from "ionicons/icons";
@@ -116,6 +122,11 @@ export default defineComponent({
     ErrorMessage,
     IonDatetime,
     IonTextarea,
+    IonTitle,
+    IonText,
+    IonSelect,
+    IonSelectOption,
+    IonButton,
   },
   setup() {
     const task = ref("");
@@ -152,11 +163,12 @@ export default defineComponent({
 
     return {
       isRequired,
-      task,
-      dueDate,
-      category,
       addTask,
       closeOutline,
+      task,
+      note,
+      dueDate,
+      category,
     };
   },
 });
