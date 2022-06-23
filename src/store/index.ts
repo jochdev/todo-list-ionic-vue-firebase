@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import { database } from "@/firebase";
 // import { collection, getDocs } from "firebase/firestore";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, doc, updateDoc,deleteDoc } from "firebase/firestore";
 
 const store = createStore({
   state: {
@@ -71,7 +71,7 @@ const store = createStore({
           state.tasks.push({
             id: doc.id,
             task: doc.data().task,
-            dueDate: new Date(doc.data().dueDate).toLocaleDateString('en-US', {
+            dueDate: new Date(doc.data().dueDate).toLocaleDateString("en-US", {
               year: "numeric",
               month: "short",
               day: "numeric",
@@ -113,6 +113,43 @@ const store = createStore({
       //     console.log(error);
       //   });
       // // Fin
+    },
+    doneTask: (state, payload: any) => {
+      if (payload.done == false) {
+        updateDoc(doc(database, "tasks", payload.id), {
+          done: true,
+        })
+          .then(() => {
+            console.log("Task done");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    notDoneTask: (state, payload: any) => {
+      if (payload.done == true) {
+        updateDoc(doc(database, "tasks", payload.id), {
+          done: true,
+        })
+          .then(() => {
+            console.log("Task not done");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    deleteTask: (state, payload: any) => {
+      if (payload.done == true) {
+        deleteDoc(doc(database, "tasks", payload.id))
+          .then(() => {
+            console.log("Task delete");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   },
 });
