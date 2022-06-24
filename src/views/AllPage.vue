@@ -24,26 +24,29 @@
         <ion-list>
           <ion-list-header>
             <ion-label
-              >Late <span class="text-gray-600 text-base">{{state.late.length}}</span>
+              >Late
+              <span class="text-gray-600 text-base">{{
+                state.late.length
+              }}</span>
             </ion-label>
           </ion-list-header>
 
           <ion-item-sliding v-for="item in state.late" :key="item.id">
             <ion-item-options side="start">
-              <ion-item-option color="danger" expadable>
+              <ion-item-option @click="deleteTask(item)" color="danger" expadable>
                 <ion-icon :icon="trash" size="large"></ion-icon>
               </ion-item-option>
             </ion-item-options>
 
             <ion-item detail="true">
               <ion-label>
-                <h2>{{item.task}}</h2>
-                <p style="color: red">{{item.dueDate}}</p>
+                <h2>{{ item.task }}</h2>
+                <p style="color: red">{{ item.dueDate }}</p>
               </ion-label>
             </ion-item>
 
             <ion-item-options side="end">
-              <ion-item-option color="primary" expadable>
+              <ion-item-option @click="doneTask(item)" color="primary" expadable>
                 <ion-checkbox :checked="item.done"></ion-checkbox>
               </ion-item-option>
             </ion-item-options>
@@ -53,25 +56,28 @@
         <ion-list>
           <ion-list-header>
             <ion-label
-              >Today <span class="text-gray-600 text-base">{{state.today.length}}</span>
+              >Today
+              <span class="text-gray-600 text-base">{{
+                state.today.length
+              }}</span>
             </ion-label>
           </ion-list-header>
 
           <ion-item-sliding v-for="item in state.today" :key="item.id">
             <ion-item-options side="start">
-              <ion-item-option color="danger" expadable>
+              <ion-item-option @click="deleteTask(item)" color="danger" expadable>
                 <ion-icon :icon="trash" size="large"></ion-icon>
               </ion-item-option>
             </ion-item-options>
             <ion-item detail="true">
               <ion-label>
-                <h2>{{item.task}}</h2>
-                <p>{{item.dueDate}}</p>
+                <h2>{{ item.task }}</h2>
+                <p>{{ item.dueDate }}</p>
               </ion-label>
             </ion-item>
 
             <ion-item-options side="end">
-              <ion-item-option color="primary" expadable>
+              <ion-item-option @click="doneTask(item)" color="primary" expadable>
                 <ion-checkbox :checked="item.done"></ion-checkbox>
               </ion-item-option>
             </ion-item-options>
@@ -81,7 +87,10 @@
         <ion-list>
           <ion-list-header>
             <ion-label
-              >Later <span class="text-gray-600 text-base">{{state.later.length}}</span>
+              >Later
+              <span class="text-gray-600 text-base">{{
+                state.later.length
+              }}</span>
             </ion-label>
           </ion-list-header>
 
@@ -93,8 +102,8 @@
             </ion-item-options>
             <ion-item detail="true">
               <ion-label>
-                <h2>{{item.task}}</h2>
-                <p>{{item.dueDate}}</p>
+                <h2>{{ item.task }}</h2>
+                <p>{{ item.dueDate }}</p>
               </ion-label>
             </ion-item>
 
@@ -109,7 +118,10 @@
         <ion-list>
           <ion-list-header>
             <ion-label
-              >Done <span class="text-gray-600 text-base">{{state.done.length}}</span>
+              >Done
+              <span class="text-gray-600 text-base">{{
+                state.done.length
+              }}</span>
             </ion-label>
           </ion-list-header>
 
@@ -121,8 +133,8 @@
             </ion-item-options>
             <ion-item detail="true">
               <ion-label>
-                <h2>{{item.task}}</h2>
-                <p>{{item.dueDate}}</p>
+                <h2>{{ item.task }}</h2>
+                <p>{{ item.dueDate }}</p>
               </ion-label>
             </ion-item>
 
@@ -229,11 +241,23 @@ export default defineComponent({
       store.commit("getTasks");
     }
 
+    function doneTasks(item) {
+      store.commit("doneTasks", item);
+    }
+
+    function notDoneTask(item) {
+      store.commit("notDoneTask", item);
+    }
+
+    function deleteTask(item) {
+      store.commit("deleteTask", item);
+    }
+
     onMounted(() => {
       // if (store.state.tasks.length == 0) {
       //   getTasks();
       // }
-       getTasks();
+      getTasks();
     });
     return {
       ellipsisVertical,
@@ -244,6 +268,9 @@ export default defineComponent({
       store,
       getTasks,
       state,
+      doneTasks,
+      notDoneTask,
+      deleteTask,
     };
   },
 });
