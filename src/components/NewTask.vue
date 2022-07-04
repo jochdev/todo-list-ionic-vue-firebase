@@ -53,6 +53,7 @@
           <ion-label>Category</ion-label>
           <ion-select placeholder="Select One" v-model="category">
             <ion-select-option value="Work">Work</ion-select-option>
+            <ion-select-option value="Music">Music</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item lines="none">
