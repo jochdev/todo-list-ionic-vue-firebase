@@ -18,7 +18,9 @@
 
             <ion-card-content>
               <ion-card-title class="text-2xl">All</ion-card-title>
-              <ion-card-subtitle>Tasks</ion-card-subtitle>
+              <ion-card-subtitle
+                >{{ state.lengthOfAllTasks }} Tasks</ion-card-subtitle
+              >
             </ion-card-content>
           </router-link>
         </ion-card>
@@ -176,8 +178,9 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, computed, onMounted, reactive } from "vue";
 import NewTask from "@/components/NewTask.vue";
+import { useStore } from "vuex";
 import {
   IonContent,
   IonPage,
@@ -225,6 +228,26 @@ export default defineComponent({
   },
   setup() {
     const isOpenNewTask = ref(false);
+    const store = useStore();
+    const state = reactive({
+      lengthOfAllTasks: computed(() => {
+        return store.state.tasks.length;
+      }),
+      lengthOfMusicTasks: computed(() => {
+        return store.getters.lengthTaskByCategory("Music");
+      }),
+    });
+
+    function getTasks() {
+      store.commit("getTasks");
+    }
+
+    onMounted(() => {
+      if (store.state.tasks.length == 0) {
+        getTasks();
+      }
+    });
+
     return {
       isOpenNewTask,
       clipboard,
@@ -236,6 +259,9 @@ export default defineComponent({
       football,
       cart,
       add,
+      store,
+      state,
+      getTasks,
     };
   },
 });
