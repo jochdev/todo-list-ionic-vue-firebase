@@ -33,7 +33,11 @@
 
           <ion-item-sliding v-for="item in state.late" :key="item.id">
             <ion-item-options side="start">
-              <ion-item-option @click="deleteTask(item)" color="danger" expadable>
+              <ion-item-option
+                @click="deleteTask(item)"
+                color="danger"
+                expadable
+              >
                 <ion-icon :icon="trash" size="large"></ion-icon>
               </ion-item-option>
             </ion-item-options>
@@ -46,7 +50,11 @@
             </ion-item>
 
             <ion-item-options side="end">
-              <ion-item-option @click="doneTask(item)" color="primary" expadable>
+              <ion-item-option
+                @click="doneTask(item)"
+                color="primary"
+                expadable
+              >
                 <ion-checkbox :checked="item.done"></ion-checkbox>
               </ion-item-option>
             </ion-item-options>
@@ -65,7 +73,11 @@
 
           <ion-item-sliding v-for="item in state.today" :key="item.id">
             <ion-item-options side="start">
-              <ion-item-option @click="deleteTask(item)" color="danger" expadable>
+              <ion-item-option
+                @click="deleteTask(item)"
+                color="danger"
+                expadable
+              >
                 <ion-icon :icon="trash" size="large"></ion-icon>
               </ion-item-option>
             </ion-item-options>
@@ -77,7 +89,11 @@
             </ion-item>
 
             <ion-item-options side="end">
-              <ion-item-option @click="doneTask(item)" color="primary" expadable>
+              <ion-item-option
+                @click="doneTask(item)"
+                color="primary"
+                expadable
+              >
                 <ion-checkbox :checked="item.done"></ion-checkbox>
               </ion-item-option>
             </ion-item-options>
@@ -96,7 +112,11 @@
 
           <ion-item-sliding v-for="item in state.later" :key="item.id">
             <ion-item-options side="start">
-              <ion-item-option color="danger" expadable>
+              <ion-item-option
+                @click="deleteTask(item)"
+                color="danger"
+                expadable
+              >
                 <ion-icon :icon="trash" size="large"></ion-icon>
               </ion-item-option>
             </ion-item-options>
@@ -108,7 +128,11 @@
             </ion-item>
 
             <ion-item-options side="end">
-              <ion-item-option color="primary" expadable>
+              <ion-item-option
+                @click="doneTask(item)"
+                color="primary"
+                expadable
+              >
                 <ion-checkbox :checked="item.done"></ion-checkbox>
               </ion-item-option>
             </ion-item-options>
@@ -127,19 +151,31 @@
 
           <ion-item-sliding v-for="item in state.done" :key="item.id">
             <ion-item-options side="start">
-              <ion-item-option color="danger" expadable>
+              <ion-item-option
+                @click="deleteTask(item)"
+                color="danger"
+                expadable
+              >
                 <ion-icon :icon="trash" size="large"></ion-icon>
               </ion-item-option>
             </ion-item-options>
             <ion-item detail="true">
               <ion-label>
-                <h2>{{ item.task }}</h2>
-                <p>{{ item.dueDate }}</p>
+                <h2 style="color: #3490dc">
+                  <s>{{ item.task }}</s>
+                </h2>
+                <p>
+                  <s>{{ item.dueDate }}</s>
+                </p>
               </ion-label>
             </ion-item>
 
             <ion-item-options side="end">
-              <ion-item-option color="primary" expadable>
+              <ion-item-option
+                @click="notDoneTask(item)"
+                color="white"
+                expadable
+              >
                 <ion-checkbox :checked="item.done"></ion-checkbox>
               </ion-item-option>
             </ion-item-options>
@@ -241,8 +277,8 @@ export default defineComponent({
       store.commit("getTasks");
     }
 
-    function doneTasks(item) {
-      store.commit("doneTasks", item);
+    function doneTask(item) {
+      store.commit("doneTask", item);
     }
 
     function notDoneTask(item) {
@@ -254,10 +290,9 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // if (store.state.tasks.length == 0) {
-      //   getTasks();
-      // }
-      getTasks();
+      if (store.state.tasks.length == 0) {
+        getTasks();
+      }
     });
     return {
       ellipsisVertical,
@@ -268,7 +303,7 @@ export default defineComponent({
       store,
       getTasks,
       state,
-      doneTasks,
+      doneTask,
       notDoneTask,
       deleteTask,
     };
