@@ -1,7 +1,13 @@
 import { createStore } from "vuex";
 import { database } from "@/firebase";
 // import { collection, getDocs } from "firebase/firestore";
-import { collection, onSnapshot, doc, updateDoc,deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 const store = createStore({
   state: {
@@ -59,6 +65,19 @@ const store = createStore({
           return item.done == true;
         });
     },
+
+    taskByCategory: (state) => {
+      return (category: any) =>
+        state.tasks.filter((item: any) => {
+          return item.category == category;
+        });
+    },
+    lengthTaskByCategory: (state) => {
+      return (category: any) =>
+        state.tasks.filter((item: any) => {
+          return item.category == category;
+        }).length;
+    },
   },
   mutations: {
     getTasks: (state) => {
@@ -85,7 +104,7 @@ const store = createStore({
             done: doc.data().done,
           });
 
-          console.log(doc.id, " => ", doc.data());
+          // console.log(doc.id, " => ", doc.data());
         });
       });
       // V1
@@ -130,7 +149,7 @@ const store = createStore({
     notDoneTask: (state, payload: any) => {
       if (payload.done == true) {
         updateDoc(doc(database, "tasks", payload.id), {
-          done: true,
+          done: false,
         })
           .then(() => {
             console.log("Task not done");
