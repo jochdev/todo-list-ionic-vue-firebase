@@ -88,6 +88,8 @@
         <ion-button expand="full" type="submit" class="mt-4">Create</ion-button>
         <!-- Inicio -->
 
+        <!-- Toast -->
+
         <!-- cerrar -->
       </Form>
     </ion-content>
@@ -116,6 +118,7 @@ import {
   IonIcon,
   IonText,
   IonList,
+  toastController,
 } from "@ionic/vue";
 import { defineComponent, ref, onMounted } from "vue";
 import { closeOutline } from "ionicons/icons";
@@ -189,7 +192,14 @@ export default defineComponent({
       });
       return (dueDateShow.value = fecha);
     }
-
+    async function openToast(msg, color) {
+      const toast = await toastController.create({
+        message: msg,
+        color: color,
+        duration: 2000,
+      });
+      return toast.present();
+    }
     function addTask() {
       addDoc(collection(database, "tasks"), {
         task: task.value,
@@ -204,10 +214,10 @@ export default defineComponent({
           note.value = "";
           category.value = "";
           this.$emit("close-modal");
-          console.log("Document successfully written !");
+          openToast("Document successfully written !", "success");
         })
         .catch((error) => {
-          console.log("Error writing document: ", error);
+          openToast("Error writing document", "danger");
         });
     }
     onMounted(() => {
