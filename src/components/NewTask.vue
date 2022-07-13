@@ -217,7 +217,7 @@ export default defineComponent({
           openToast("Document successfully written !", "success");
         })
         .catch((error) => {
-          openToast("Error writing document", "danger");
+          openToast("Error writing document: ", error, "danger");
         });
     }
     onMounted(() => {
