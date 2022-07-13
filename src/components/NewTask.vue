@@ -2,110 +2,124 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>NewTask</ion-title>
+        <ion-title>Nueva tarea</ion-title>
+        <ion-buttons slot="end">
+          <ion-button @click="$emit('close-modal')">
+            <ion-icon :icon="closeOutline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
       <Form @submit="addTask()">
-        <!--Begin::Input -->
-        <ion-item>
-          <ion-label position="floating">What are you planning?</ion-label>
-          <ion-input
+        <p class="text-lg pb-4">Registra tus tareas facilmente.</p>
+
+        <ion-item class="pb-3">
+          <ion-label position="stacked">What are you planning?</ion-label>
+          <Field
+            v-slot="{ field }"
             name="taskField"
             :rules="isRequired"
             v-model="task"
-          ></ion-input>
-        </ion-item>
-        <ion-item lines="none">
+          >
+            <ion-input
+              v-bind="field"
+              type="text"
+              name="taskField"
+              :rules="isRequired"
+            >
+            </ion-input>
+          </Field>
           <ErrorMessage v-slot="{ message }" name="taskField">
             <ion-text color="danger" v-if="message">{{ message }}</ion-text>
           </ErrorMessage>
         </ion-item>
-        <!--End::Input -->
 
-        <!--Begin::Input Fecha -->
-        <ion-datetime
-          name="duedateField"
-          v-model="dueDate"
-          display-format="MMM DD, YYYY HH:mm"
-          display-timezone="utc"
-          value="2022-06-17T14:51:56.646+01:00"
-          max="2025-12-31"
-        ></ion-datetime>
-        <ion-item lines="none">
-          <ErrorMessage v-slot="{ message }" name="duedateField">
-            <ion-text color="danger" v-if="message">{{ message }}</ion-text>
-          </ErrorMessage>
-        </ion-item>
-        <!--Begin::Input Fecha-->
-
-        <!--Begin::Input Nota -->
-        <ion-item>
-          <ion-label position="floating"
+        <!-- ///// -->
+        <ion-item class="pb-3">
+          <ion-label position="stacked"
             >Enter more information here...</ion-label
           >
-          <ion-textarea v-model="note"></ion-textarea>
+          <ion-textarea v-model="note" :rules="isRequired"></ion-textarea>
         </ion-item>
-        <!--Begin::Input Nota-->
-
-        <!--Begin::Input Categoria -->
-        <ion-item>
-          <ion-label>Category</ion-label>
-          <ion-select placeholder="Select One" v-model="category">
-            <ion-select-option value="Work">Work</ion-select-option>
-            <ion-select-option value="Music">Music</ion-select-option>
+        <!-- ///// -->
+        <ion-item class="pb-3">
+          <ion-label position="stacked">Choose category</ion-label>
+          <ion-select
+            interface="popover"
+            placeholder="Select One"
+            v-model="category"
+            :rules="isRequired"
+            name="categoryField"
+          >
+            <IonSelectOption value="Work">Work</IonSelectOption>
           </ion-select>
         </ion-item>
-        <ion-item lines="none">
-          <ErrorMessage v-slot="{ message }" name="categoryField">
-            <ion-text color="danger" v-if="message">{{ message }}</ion-text>
-          </ErrorMessage>
-        </ion-item>
-        <!--Begin::Input Categoria-->
+        <ErrorMessage v-slot="{ message }" name="categoryField">
+          <ion-text color="danger" v-if="message">{{ message }}</ion-text>
+        </ErrorMessage>
+        <!-- ///// -->
+        <ion-list>
+          <ion-accordion-group>
+            <ion-accordion value="start">
+              <ion-item slot="header">
+                <ion-label>MMMM YY</ion-label>
+                <ion-note slot="end" id="datetimeValue">{{
+                  dueDateShow
+                }}</ion-note>
+              </ion-item>
+              <ion-datetime
+                :rules="isRequired"
+                id="datetime"
+                v-model="dueDate"
+                slot="content"
+                name="duedateField"
+                presentation="date-time"
+                display-format="MMM DD, YYYY HH:mm"
+                display-timezone="utc"
+                max="2025-12-31"
+                @ionChange="mostrarTimeChange"
+              ></ion-datetime>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-list>
 
-        <!--Begin::Button -->
+        <!-- ///// -->
+        <ion-button expand="full" type="submit" class="mt-4">Create</ion-button>
+        <!-- Inicio -->
 
-        <ion-button expand="full" type="submit">Create</ion-button>
-
-        <!--Begin::Button-->
+        <!-- cerrar -->
       </Form>
     </ion-content>
-    <!-- Begin::Icon -->
-    <ion-fab
-      vertical="top"
-      horizontal="end"
-      class="cursor-pointer"
-      slot="fixed"
-      @click="$emit('close-modal')"
-      ><ion-icon name=""></ion-icon>
-      <ion-icon :icon="closeOutline" class="text-3xl"></ion-icon>
-    </ion-fab>
-    <!-- End::Icon -->
   </ion-page>
 </template>
 
 <script>
 import {
-  IonPage,
   IonContent,
   IonHeader,
   IonToolbar,
-  IonFab,
-  IonIcon,
+  IonPage,
+  IonTitle,
+  IonItem,
   IonLabel,
   IonInput,
-  IonItem,
-  IonDatetime,
   IonTextarea,
-  IonTitle,
-  IonText,
   IonSelect,
   IonSelectOption,
+  IonAccordionGroup,
+  IonAccordion,
+  IonDatetime,
+  IonNote,
   IonButton,
+  IonButtons,
+  IonIcon,
+  IonText,
+  IonList,
 } from "@ionic/vue";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import { closeOutline } from "ionicons/icons";
-import { Form, ErrorMessage } from "vee-validate";
+import { Form, ErrorMessage, Field } from "vee-validate";
 import { database } from "@/firebase.ts";
 import { collection, addDoc } from "firebase/firestore";
 export default defineComponent({
@@ -114,24 +128,31 @@ export default defineComponent({
     IonHeader,
     IonToolbar,
     IonPage,
-    IonFab,
-    IonIcon,
+    IonTitle,
+    IonItem,
     IonLabel,
     IonInput,
-    IonItem,
-    Form,
-    ErrorMessage,
-    IonDatetime,
     IonTextarea,
-    IonTitle,
-    IonText,
     IonSelect,
     IonSelectOption,
+    IonAccordionGroup,
+    IonAccordion,
+    IonDatetime,
+    IonNote,
     IonButton,
+    IonButtons,
+    IonIcon,
+    IonList,
+    Form,
+    Field,
+    ErrorMessage,
+    IonText,
   },
+
   setup() {
     const task = ref("");
     const dueDate = ref("");
+    const dueDateShow = ref("");
     const note = ref("");
     const category = ref("");
     const isRequired = (value) => {
@@ -140,6 +161,34 @@ export default defineComponent({
       }
       return true;
     };
+
+    function timeActual() {
+      const fecha = new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h24",
+      });
+      return fecha;
+    }
+
+    function mostrarTime() {
+      return (dueDateShow.value = timeActual());
+    }
+
+    function mostrarTimeChange() {
+      const fecha = new Date(dueDate.value).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h24",
+      });
+      return (dueDateShow.value = fecha);
+    }
 
     function addTask() {
       addDoc(collection(database, "tasks"), {
@@ -161,7 +210,9 @@ export default defineComponent({
           console.log("Error writing document: ", error);
         });
     }
-
+    onMounted(() => {
+      mostrarTime();
+    });
     return {
       isRequired,
       addTask,
@@ -170,6 +221,9 @@ export default defineComponent({
       note,
       dueDate,
       category,
+      timeActual,
+      dueDateShow,
+      mostrarTimeChange,
     };
   },
 });
