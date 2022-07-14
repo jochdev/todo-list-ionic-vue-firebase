@@ -1,19 +1,18 @@
 <template>
   <ion-page>
+    <ion-header>
+      <ion-toolbar color="mycolor">
+        <ion-title>ToDo App</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
     <div class="flex w-full flex-col overflow-auto">
-      <div class="mt-2">
-        <h1 class="text-4xl pl-5 font-semibold">Lista</h1>
-      </div>
       <div class="flex w-full flex-row flex-wrap justify-around mt-2">
         <!-- clipboard -->
-        <ion-card class="w-2/5">
+        <ion-card class="w-2/5 tarjeta rounded-md">
           <router-link :to="{ name: 'All' }">
             <ion-card-header>
-              <ion-icon
-                :icon="clipboard"
-                color="primary"
-                size="large"
-              ></ion-icon>
+              <ion-icon :icon="clipboard" size="large"></ion-icon>
             </ion-card-header>
 
             <ion-card-content>
@@ -24,15 +23,11 @@
             </ion-card-content>
           </router-link>
         </ion-card>
-
-        <ion-card class="w-2/5">
+        <!-- briefcase -->
+        <ion-card class="w-2/5 tarjeta rounded-md">
           <router-link :to="{ name: 'Work' }">
             <ion-card-header>
-              <ion-icon
-                :icon="briefcase"
-                color="text-yellow-800"
-                size="large"
-              ></ion-icon>
+              <ion-icon :icon="briefcase" size="large"></ion-icon>
             </ion-card-header>
 
             <ion-card-content>
@@ -42,14 +37,10 @@
           </router-link>
         </ion-card>
         <!-- Music -->
-        <ion-card class="w-2/5">
+        <ion-card class="w-2/5 tarjeta rounded-md">
           <router-link :to="{ name: 'Music' }">
             <ion-card-header>
-              <ion-icon
-                :icon="headset"
-                color="text-yellow-800"
-                size="large"
-              ></ion-icon>
+              <ion-icon :icon="headset" size="large"></ion-icon>
             </ion-card-header>
 
             <ion-card-content>
@@ -58,16 +49,11 @@
             </ion-card-content>
           </router-link>
         </ion-card>
-
         <!-- Airplane -->
-        <ion-card class="w-2/5">
+        <ion-card class="w-2/5 tarjeta rounded-md">
           <router-link :to="{ name: 'Travel' }">
             <ion-card-header>
-              <ion-icon
-                :icon="airplane"
-                color="text-yellow-800"
-                size="large"
-              ></ion-icon>
+              <ion-icon :icon="airplane" size="large"></ion-icon>
             </ion-card-header>
 
             <ion-card-content>
@@ -76,16 +62,11 @@
             </ion-card-content>
           </router-link>
         </ion-card>
-
         <!-- book -->
-        <ion-card class="w-2/5">
+        <ion-card class="w-2/5 tarjeta rounded-md">
           <router-link :to="{ name: 'Study' }">
             <ion-card-header>
-              <ion-icon
-                :icon="book"
-                color="text-yellow-800"
-                size="large"
-              ></ion-icon>
+              <ion-icon :icon="book" size="large"></ion-icon>
             </ion-card-header>
 
             <ion-card-content>
@@ -94,16 +75,11 @@
             </ion-card-content>
           </router-link>
         </ion-card>
-
         <!-- home -->
-        <ion-card class="w-2/5">
+        <ion-card class="w-2/5 tarjeta rounded-md">
           <router-link :to="{ name: 'Home' }">
             <ion-card-header>
-              <ion-icon
-                :icon="home"
-                color="text-yellow-800"
-                size="large"
-              ></ion-icon>
+              <ion-icon :icon="home" size="large"></ion-icon>
             </ion-card-header>
 
             <ion-card-content>
@@ -112,16 +88,11 @@
             </ion-card-content>
           </router-link>
         </ion-card>
-
         <!-- football -->
-        <ion-card class="w-2/5">
+        <ion-card class="w-2/5 tarjeta rounded-md">
           <router-link :to="{ name: 'Sport' }">
             <ion-card-header>
-              <ion-icon
-                :icon="football"
-                color="text-yellow-800"
-                size="large"
-              ></ion-icon>
+              <ion-icon :icon="football" size="large"></ion-icon>
             </ion-card-header>
 
             <ion-card-content>
@@ -130,16 +101,11 @@
             </ion-card-content>
           </router-link>
         </ion-card>
-
         <!-- cart -->
-        <ion-card class="w-2/5">
+        <ion-card class="w-2/5 tarjeta rounded-md">
           <router-link :to="{ name: 'Shopping' }">
             <ion-card-header>
-              <ion-icon
-                :icon="cart"
-                color="text-yellow-800"
-                size="large"
-              ></ion-icon>
+              <ion-icon :icon="cart" size="large"></ion-icon>
             </ion-card-header>
 
             <ion-card-content>
@@ -151,28 +117,17 @@
         <!-- Fin -->
       </div>
 
-      <div>
-        <ion-fab
-          @click="isOpenNewTask = true"
-          vertical="botton"
-          horizontal="end"
-          slot="fixed"
-        >
-          <ion-fab-button>
-            <ion-icon :icon="add"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-        <ion-modal :is-open="isOpenNewTask">
-          <ion-content>
-            <new-task @closeModal="isOpenNewTask = false"></new-task
-          ></ion-content>
-        </ion-modal>
-      </div>
+      <ion-modal :is-open="isOpenNewTask">
+        <ion-content>
+          <new-task @closeModal="isOpenNewTask = false"></new-task
+        ></ion-content>
+      </ion-modal>
     </div>
+
     <ion-footer>
-      <ion-toolbar>
-        <ion-title>Footer</ion-title>
-      </ion-toolbar>
+      <ion-button @click="isOpenNewTask = true" expand="block">
+        Agregar tareas
+      </ion-button>
     </ion-footer>
   </ion-page>
 </template>
@@ -190,12 +145,12 @@ import {
   IonCardContent,
   IonCardTitle,
   IonCardSubtitle,
-  IonFab,
-  IonFabButton,
   IonModal,
   IonToolbar,
   IonFooter,
   IonTitle,
+  IonHeader,
+  IonButton,
 } from "@ionic/vue";
 import {
   clipboard,
@@ -206,7 +161,6 @@ import {
   home,
   football,
   cart,
-  add,
 } from "ionicons/icons";
 export default defineComponent({
   components: {
@@ -217,14 +171,14 @@ export default defineComponent({
     IonCardContent,
     IonCardTitle,
     IonCardSubtitle,
-    IonFab,
-    IonFabButton,
+    IonButton,
     IonModal,
     NewTask,
     IonToolbar,
     IonFooter,
     IonContent,
     IonTitle,
+    IonHeader,
   },
   setup() {
     const isOpenNewTask = ref(false);
@@ -258,7 +212,6 @@ export default defineComponent({
       home,
       football,
       cart,
-      add,
       store,
       state,
       getTasks,
@@ -266,5 +219,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style></style>
